@@ -111,7 +111,7 @@ public class DanbooruApi {
             // add id to last retrieved img ids
             addId(guildId, imgId);
             //hearts, todo
-        //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
+            event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             try {
                 event.getMessage().delete().queue();
