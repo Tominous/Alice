@@ -68,31 +68,31 @@ public class GameListener extends ListenerAdapter {
 
             long elapsed = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             long elapsedMilis = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
-//            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
+            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
 
             if (elapsed >= 0) {
-//                if (elapsedMilis > sinceStartupTime){
-//                    return;
-//                }
+                if (elapsedMilis > sinceStartupTime){
+                    return;
+                }
 
                 if (lastUpdate.containsKey(guild.getId().concat(user.getId()))){
                     long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.get(guild.getId().concat(user.getId()));
-                    //logger.debug("sinceLastUpdate: " + sinceLastUpdate);
-                    //logger.debug("elapsedMillis: " + elapsedMilis);
+                    logger.debug("sinceLastUpdate: " + sinceLastUpdate);
+                    logger.debug("elapsedMillis: " + elapsedMilis);
                     if (elapsedMilis > sinceLastUpdate){
-                        //logger.debug("not saved");
+                        logger.debug("not saved");
                         return;
                     }
                 }
 
 
-                    //AliceBootstrap.alice.getGameStatsManager().addTimePlayed(user, guild, gameName, elapsed);
+                    AliceBootstrap.alice.getGameStatsManager().addTimePlayed(user, guild, gameName, elapsed);
                     GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
                     gameStats.addTimePlayed(elapsed);
                     gameStats.save();
                     lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
-                    //logger.debug("saved");
-                    //logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
+                    logger.debug("saved");
+                    logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
                     AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), AMessage.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName, String.valueOf(elapsed)));
 
 
