@@ -49,7 +49,7 @@ public class SankakuApi {
 
             JsonArray array = new JsonParser().parse(sb.toString()).getAsJsonArray();
             String imgUrl;
-           // String character;
+            String character;
             int imgId;
             int score;
 
@@ -86,7 +86,7 @@ public class SankakuApi {
             }
 
             imgUrl = bestRatingObject.get("file_url").getAsString();
-            //character = bestRatingObject.get("tag_string_character").getAsString();
+            character = bestRatingObject.get("tag_string_character").getAsString();
             imgId = bestRatingObject.get("id").getAsInt();
 
             if (imgUrl.isEmpty()){
@@ -97,14 +97,14 @@ public class SankakuApi {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imgUrl);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-//            if (!character.isEmpty()){
-//                embedBuilder.setFooter(character, null);
-//            }
+            if (!character.isEmpty()){
+                embedBuilder.setFooter(character, null);
+            }
 
             // add id to last retrieved img ids
             addId(guildId, imgId);
             //hearts, todo
-        //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
+            event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
         } catch(IOException exc){
             exc.printStackTrace();
